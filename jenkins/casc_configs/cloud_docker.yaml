@@ -1,0 +1,24 @@
+jenkins:
+  clouds:
+    - docker:
+        name: "docker"
+        dockerApi:
+          dockerHost:
+            uri: "tcp://jenkins-docker:2375"
+        templates:
+          - labelString: "jenkins-agent"
+            dockerTemplateBase:
+              # TODO: pin sha256 or versions when using in production
+              image: "ghcr.io/dos11-onl/jenkins:agent"
+              mounts:
+                - "type=tmpfs,destination=/run"
+                - "type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock"
+                - "type=volume,source=jenkins-agent,destination=/home/jenkins/.kube"
+              pullCredentialsId: "github_registry"
+            remoteFs: "/home/jenkins/agent"
+            connector:
+              attach:
+                user: "jenkins"
+            instanceCapStr: "10"
+            retentionStrategy:
+              idleMinutes: 1
