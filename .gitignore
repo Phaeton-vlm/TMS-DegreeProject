@@ -1,0 +1,8 @@
+docker-machine/aws_cred
+docker-machine/ssh_key
+Terraform/environments/dev/.terraform
+Terraform/environments/dev/terraform.tfstate.backup
+Terraform/environments/dev/.terraform.lock.hcl
+Terraform/modules
+Terraform/provider
+ИСПРАВЛЕНИЯ

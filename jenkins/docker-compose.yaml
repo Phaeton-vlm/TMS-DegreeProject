@@ -1,8 +1,7 @@
 version: '3.9'
 services:
-  jenkins-server:
-    
-    image: vlm-jenkins:jcasc
+  jenkins-server:  
+    image: vlemi/jenkins-server:v1
     container_name: jenkins-server
     restart: unless-stopped
     ports:
