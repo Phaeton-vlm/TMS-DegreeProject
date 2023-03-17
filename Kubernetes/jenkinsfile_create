@@ -25,7 +25,7 @@ pipeline {
         stage('EKS Init') {
             steps {
                 dir(PROJECT_FOLDER_PATH) {
-                    sh "eksctl create cluster -f cluster.yaml"
+                    sh "kubectl version"
                 }
             }
         }
