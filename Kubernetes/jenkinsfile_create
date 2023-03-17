@@ -15,7 +15,7 @@ pipeline {
         // PATH = "${KIND_HOME}:${KUBECTL_HOME}:${env.PATH}"
         AWS_ACCESS_KEY_ID = credentials('accessKey')
         AWS_SECRET_ACCESS_KEY = credentials('secretKey')
-        PROJECT_FOLDER_PATH = 'TMS-DegreeProject/Kubernetes'
+        PROJECT_FOLDER_PATH = 'Kubernetes'
         // PROJECT_KIND_FOLDER_PATH = 'diplom/kind'
         // KUBECONFIG = '/home/jenkins/.kube/config'
     }
