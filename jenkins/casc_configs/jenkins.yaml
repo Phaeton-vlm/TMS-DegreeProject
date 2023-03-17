@@ -23,7 +23,7 @@ credentials:
           - basicSSHUserPrivateKey:
               scope: GLOBAL
               id: github_ssh
-              username: user
+              username: vladislav
               description: "SSH Github"
               privateKeySource:
                 directEntry:
