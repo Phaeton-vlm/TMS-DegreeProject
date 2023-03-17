@@ -8,8 +8,7 @@ jenkins:
         templates:
           - labelString: "jenkins-agent"
             dockerTemplateBase:
-              # TODO: pin sha256 or versions when using in production
-              image: "ghcr.io/dos11-onl/jenkins:agent"
+              image: "jenkins:agent"
               mounts:
                 - "type=tmpfs,destination=/run"
                 - "type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock"
