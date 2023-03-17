@@ -1,0 +1,33 @@
+pipeline {
+
+    agent {label "jenkins-agent" }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        disableConcurrentBuilds()
+        timestamps()
+        ansiColor('xtrem')
+    }
+
+    environment {
+        KIND_HOME = tool name: 'kind', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
+        KUBECTL_HOME = tool name: 'kubectl', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
+        // PATH = "${KIND_HOME}:${KUBECTL_HOME}:${env.PATH}"
+        AWS_ACCESS_KEY_ID = credentials('accessKey')
+        AWS_SECRET_ACCESS_KEY = credentials('secretKey')
+        PROJECT_FOLDER_PATH = 'TMS-DegreeProject/Kubernetes'
+        // PROJECT_KIND_FOLDER_PATH = 'diplom/kind'
+        // KUBECONFIG = '/home/jenkins/.kube/config'
+    }
+
+
+    stages {
+        stage('EKS Init') {
+            steps {
+                dir(PROJECT_FOLDER_PATH) {
+                    sh "eksctl create cluster -f cluster.yaml"
+                }
+            }
+        }
+    }
+}
