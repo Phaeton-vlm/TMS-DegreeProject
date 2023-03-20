@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoapp-s
+  # labels:
+  #   app: todoapp-s
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: tododapp
+  template:
+    metadata:
+      labels:
+        app: tododapp
+    spec:
+      containers:
+      - name: tododapp
+        image: vlemi/todo-app:v2
+        # ports:
+        # - containerPort: 80

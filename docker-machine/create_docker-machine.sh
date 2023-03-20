@@ -14,9 +14,10 @@ rst="$( echo -e '\033[0m' )"    # Reset Color format
 echo -e $grn"\nCreating machine..."$rst
 docker-machine create \
 	--driver amazonec2 \
+	--amazonec2-vpc-id vpc-042884a1f4f1e3b08 \
 	--amazonec2-region us-east-1 \
 	--amazonec2-ami ami-09cd747c78a9add63 \
-	--amazonec2-instance-type t2.micro \
+	--amazonec2-instance-type t2.small \
 	--amazonec2-open-port 8080 \
 "$MACHINE_NAME"
 
@@ -38,6 +39,3 @@ echo -e $grn"\nActivating machine.."$rst
 echo -e $grn"Docker machine ip - $(docker-machine ip "$MACHINE_NAME")"$rst
 echo -e $red"Run this command to configure your shell:"$rst
 echo -e $red"docker-machine use $MACHINE_NAME"$rst
-
-
-
