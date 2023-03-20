@@ -1,5 +1,5 @@
 #! /bin/env bash
-export MACHINE_NAME="vlm5-jenkins"
+export MACHINE_NAME="vlm-jenkins-server"
 export SYNC_FOLDER="jenkins"
 export MACHINE_USER="ubuntu"
 export ROOT_DIR="/mnt/e/DevOps/TMS-DegreeProject/TMS-DegreeProject"

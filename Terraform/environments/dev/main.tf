@@ -48,7 +48,7 @@ locals {
 
 resource "aws_instance" "jenkins-instance" {
   ami             = "ami-09cd747c78a9add63"
-  instance_type   = "t2.micro"
+  instance_type   = "t2.small"
   key_name        = "${var.keyname}"
   # vpc_id          = module.vpc.vpc_id
   vpc_security_group_ids = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
