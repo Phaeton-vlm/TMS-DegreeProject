@@ -1,51 +1,24 @@
-tool:
-  customTool:
-    installations:
-    - name: "kind"
-      properties:
-      - installSource:
-          installers:
-          - command:
-              command: |-
-                [ -d ./bin ] || mkdir ./bin/
-                curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
-                chmod +x ./kind
-                mv ./kind ./bin/kind
-              toolHome: "./bin"
-    - name: "kubectl"
-      properties:
-      - installSource:
-          installers:
-          - command:
-              command: |-
-                [ -d ./bin ] || mkdir ./bin/
-                curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-                chmod +x ./kubectl
-                mv ./kubectl ./bin/kubectl
-              toolHome: "./bin"
-    - name: "eksctl"
-      properties:
-      - installSource:
-          installers:
-          - command:
-              command: |-
-                [ -d ./bin ] || mkdir ./bin/
-                curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C .
-                mv ./eksctl ./bin/eksctl
-              toolHome: "./bin"
-  dockerTool:
-    installations:
-    - name: "docker"
-      properties:
-      - installSource:
-          installers:
-          - fromDocker:
-              version: "latest"
-  terraform:
-    installations:
-    - name: "terraform"
-      properties:
-      - installSource:
-          installers:
-          - terraformInstaller:
-              id: "1.3.9-linux-amd64"
+jenkins:
+  clouds:
+    - docker:
+        name: "docker"
+        dockerApi:
+          dockerHost:
+            uri: "tcp://jenkins-docker:2375"
+        templates:
+          - labelString: "jenkins-agent"
+            dockerTemplateBase:
+              # TODO: pin sha256 or versions when using in production
+              image: "jenkins/agent"
+              mounts:
+                - "type=tmpfs,destination=/run"
+                - "type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock"
+                - "type=volume,source=jenkins-agent,destination=/home/jenkins/.kube"
+              pullCredentialsId: "github_PAT"
+            remoteFs: "/home/jenkins/agent"
+            connector:
+              attach:
+                user: "jenkins"
+            instanceCapStr: "10"
+            retentionStrategy:
+              idleMinutes: 1

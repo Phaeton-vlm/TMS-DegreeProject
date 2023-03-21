@@ -30,8 +30,7 @@ tool:
           - command:
               command: |-
                 [ -d ./bin ] || mkdir ./bin/
-                curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz"
-                chmod +x ./eksctl
+                curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C .
                 mv ./eksctl ./bin/eksctl
               toolHome: "./bin"
   dockerTool:
@@ -42,13 +41,6 @@ tool:
           installers:
           - fromDocker:
               version: "latest"
-  git:
-    installations:
-    - home: "git"
-      name: "Default"
-  mavenGlobalConfig:
-    globalSettingsProvider: "standard"
-    settingsProvider: "standard"
   terraform:
     installations:
     - name: "terraform"

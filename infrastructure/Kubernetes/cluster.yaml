@@ -8,8 +8,8 @@ nodeGroups:
     instanceType: t2.small
     desiredCapacity: 2
     volumeSize: 80
-    ssh:
-      allow: true # will use ~/.ssh/id_rsa.pub as the default ssh key
+    # ssh:
+    #   allow: false # will use ~/.ssh/id_rsa.pub as the default ssh key
   # - name: ng-2
   #   instanceType: t2.medium
   #   desiredCapacity: 1
