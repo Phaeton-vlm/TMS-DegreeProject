@@ -23,6 +23,32 @@ tool:
                 chmod +x ./kubectl
                 mv ./kubectl ./bin/kubectl
               toolHome: "./bin"
+    - name: "eksctl"
+      properties:
+      - installSource:
+          installers:
+          - command:
+              command: |-
+                [ -d ./bin ] || mkdir ./bin/
+                curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz"
+                chmod +x ./eksctl
+                mv ./eksctl ./bin/eksctl
+              toolHome: "./bin"
+  dockerTool:
+    installations:
+    - name: "docker"
+      properties:
+      - installSource:
+          installers:
+          - fromDocker:
+              version: "latest"
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"
   terraform:
     installations:
     - name: "terraform"
@@ -31,11 +57,3 @@ tool:
           installers:
           - terraformInstaller:
               id: "1.3.9-linux-amd64"
-  dockerTool:
-    installations:
-      - name: "docker"
-        properties:
-        - installSource:
-            installers:
-            - fromDocker:
-                version: "latest"

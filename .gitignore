@@ -6,5 +6,5 @@ Terraform/environments/dev/.terraform.lock.hcl
 Terraform/modules
 Terraform/provider
 Terraform/environments/dev/install_docker.sh
-docker-machine/set_cred_env.sh
+docker-machine/set_cred_env.sh 
 ИСПРАВЛЕНИЯ
