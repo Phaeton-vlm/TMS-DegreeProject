@@ -1,0 +1,46 @@
+pipeline {
+
+    agent { label "jenkins-agent" }
+    
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        disableConcurrentBuilds()
+        timestamps()
+        ansiColor('xtrem')
+    }
+
+    environment {
+        EKSCTL_HOME = tool name: 'eksctl', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
+        PATH = "${EKSCTL_HOME}:${env.PATH}"
+        AWS_ACCESS_KEY_ID = credentials('accessKey')
+        AWS_SECRET_ACCESS_KEY = credentials('secretKey')
+        PROJECT_FOLDER_PATH = 'infrastructure/Kubernetes'
+        KUBECONFIG = '/home/jenkins/.kube/config'
+    }
+
+    stages {
+
+        stage('Destroy EKS cluster') {
+            steps {
+                dir(PROJECT_FOLDER_PATH) {
+                    sh 'eksctl delete cluster -f cluster.yaml'
+                }
+                
+            }
+        }
+
+
+        stage('Delete KUBECONFIG') {
+            steps {
+                script {
+                    try {
+                        sh "rm ${KUBECONFIG}"
+                    } catch (err) {
+                        println "Failed remove ${KUBECONFIG} (${err.getMessage()})"
+                    }
+                }
+            }
+        }
+        
+    }
+}
