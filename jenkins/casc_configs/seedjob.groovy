@@ -38,3 +38,24 @@ pipelineJob('Infrastructure/Infrastructure_destroy') {
         }
     }
 }
+
+folder('App') {
+    description('<div style="border-radius:10px; text-align: center; font-size:120%; padding:15px; background-color: powderblue;">Application management folder</div>')
+}
+
+pipelineJob('App/app_build') {
+    description('<div style="border-radius:10px; text-align: center; font-size:120%; padding:15px; background-color: powderblue;">Build application pipeline</div>')
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        github('Phaeton-vlm/todo-vue')
+                    }
+                    branch('master')
+                }
+            }
+            scriptPath('Jenkinsfile_build')
+        }
+    }
+}

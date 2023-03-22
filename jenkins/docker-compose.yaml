@@ -17,6 +17,7 @@ services:
       DOCKER_CERT_PATH: ""
       DOCKER_TLS_VERIFY: ""
     secrets:
+      - dockerhub_token
       - github_ssh
       - accessKey
       - secretKey
@@ -55,3 +56,5 @@ secrets:
     file: /home/ubuntu/.aws_cred/aws_access_key_id
   secretKey:
     file: /home/ubuntu/.aws_cred/aws_secret_access_key
+  dockerhub_token:
+    file: /home/ubuntu/.ssh/dockerhub_token
