@@ -1,6 +1,8 @@
 docker-machine/aws_cred
 docker-machine/ssh_key
 docker-machine/set_cred_env.sh
+docker-machine/sync_rsa.sh
+docker-machine/set_cred_env.sh
 Terraform/environments/dev/.terraform
 Terraform/environments/dev/terraform.tfstate.backup
 Terraform/environments/dev/.terraform.lock.hcl

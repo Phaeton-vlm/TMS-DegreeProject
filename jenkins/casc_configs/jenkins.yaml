@@ -43,6 +43,11 @@ credentials:
               id: "secretKey"
               secret: "${secretKey}"
               description: "aws secretKey"
+          - usernamePassword:
+              id: "dockerhub"
+              password: ${dockerhub_token}
+              scope: GLOBAL
+              username: "vlemi"
 
 security:
   gitHostKeyVerificationConfiguration:
