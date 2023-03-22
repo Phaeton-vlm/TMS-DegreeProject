@@ -22,13 +22,42 @@ pipeline {
 
     stages {
 
-        stage('Create eks cluster') {
+        stage('Create EKS cluster') {
             steps {
                 dir(PROJECT_FOLDER_PATH) {
-                    sh 'eksctl version'
-                    sh 'ls -la /'
+                    sh 'eksctl create cluster -f cluster.yaml'
                 }
                 
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                script {
+                    dir(PROJECT_FOLDER_PATH) {
+                        sh """
+                        aws --version
+                        aws eks update-kubeconfig --name basic-cluster
+                        cat /home/jenkins/.kube/config
+                        export KUBECONFIG=${KUBECONFIG}
+                        kubectl get nodes
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                script {
+                    dir(PROJECT_FOLDER_PATH) {
+                        sh """
+                        kubectl apply -f deployment.yaml
+                        kubectl apply -f lb-service.yaml
+                        kubectl get svc
+                        """
+                    }
+                }
             }
         }
     }
