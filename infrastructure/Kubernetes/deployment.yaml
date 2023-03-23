@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todoapp-s
-  # labels:
-  #   app: todoapp-s
+  labels:
+    app: todoapp-s
 spec:
   replicas: 2
   strategy:
@@ -22,5 +22,5 @@ spec:
       containers:
       - name: tododapp
         image: vlemi/todo-app:v2
-        # ports:
-        # - containerPort: 80
+        ports:
+        - containerPort: 80
