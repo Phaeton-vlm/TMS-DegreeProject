@@ -3,7 +3,7 @@ folder('Infrastructure') {
 }
 
 
-pipelineJob('Infrastructure/Infrastructure_deploy') {
+pipelineJob('Infrastructure/Deploy_Infrastructure') {
     description('<div style="border-radius:10px; text-align: center; font-size:120%; padding:15px; background-color: powderblue;">Create infrastructure pipeline</div>')
     definition {
         cpsScm {
@@ -21,7 +21,7 @@ pipelineJob('Infrastructure/Infrastructure_deploy') {
     }
 }
 
-pipelineJob('Infrastructure/Infrastructure_destroy') {
+pipelineJob('Infrastructure/Destroy_infrastructure') {
     description('<div style="border-radius:10px; text-align: center; font-size:120%; padding:15px; background-color: powderblue;">Destroy infrastructure pipeline</div>')
     definition {
         cpsScm {
@@ -43,8 +43,49 @@ folder('App') {
     description('<div style="border-radius:10px; text-align: center; font-size:120%; padding:15px; background-color: powderblue;">Application management folder</div>')
 }
 
-pipelineJob('App/app_build') {
+multibranchPipelineJob('App/Build(multibranch)') {
     description('<div style="border-radius:10px; text-align: center; font-size:120%; padding:15px; background-color: powderblue;">Build application pipeline</div>')
+    branchSources {
+        branchSource {
+            source {
+                github {
+                    id('1234567') // IMPORTANT: use a constant and unique identifier
+                    repoOwner('Phaeton-vlm')
+                    repository('todo-vue')
+                    repositoryUrl('https://github.com/Phaeton-vlm/todo-vue.git')
+                    configuredByUrl(true)
+                    traits {
+                        gitHubBranchDiscovery {
+                            strategyId(3)
+                        }
+                        gitHubPullRequestDiscovery {
+                            strategyId(1)
+                        }
+                        headWildcardFilter  {
+                            includes("master PR-*")
+                            excludes("")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    factory {
+        workflowBranchProjectFactory {
+            scriptPath('Jenkinsfile_build')
+        }
+    }
+
+    orphanedItemStrategy {
+        discardOldItems {
+            numToKeep(15)
+        }
+    }
+}
+
+pipelineJob('App/Deploy') {
+    description('<div style="border-radius:10px; text-align: center; font-size:120%; padding:15px; background-color: powderblue;">BuiDeployld application pipeline</div>')
     definition {
         cpsScm {
             scm {
@@ -55,7 +96,7 @@ pipelineJob('App/app_build') {
                     branch('master')
                 }
             }
-            scriptPath('Jenkinsfile_build')
+            scriptPath('Jenkinsfile_deploy')
         }
     }
 }
