@@ -1,8 +1,15 @@
 apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
+kind: ClusterConfig  
 metadata:
-  name: basic-cluster
+  name: demo-cluster
   region: us-east-1
+
+vpc:
+  cidr: 192.168.0.0/16
+  autoAllocateIPv6: true
+  # nat:
+  #   gateway: HighlyAvailable
+
 nodeGroups:
   - name: ng-1
     instanceType: t2.small
@@ -14,4 +21,15 @@ nodeGroups:
   #   instanceType: t2.medium
   #   desiredCapacity: 1
   #   volumeSize: 50
-availabilityZones: ['us-east-1a', 'us-east-1b', 'us-east-1c', 'us-east-1d']
+availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d"]
+
+# cloudWatch:
+#   clusterLogging:
+#     # enable specific types of cluster control plane logs
+#     enableTypes: ["*"]
+#     # all supported types: "api", "audit", "authenticator", "controllerManager", "scheduler"
+#     # supported special values: "*" and "all"
+
+#     # Sets the number of days to retain the logs for (see [CloudWatch docs](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutRetentionPolicy.html#API_PutRetentionPolicy_RequestSyntax)).
+#     # By default, log data is stored in CloudWatch Logs indefinitely.
+#     logRetentionInDays: 1

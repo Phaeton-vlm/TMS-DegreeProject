@@ -1,0 +1,17 @@
+1 create namespace
+2 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+3 helm upgrade -i prometheus prometheus-community/prometheus \
+    --namespace prometheus \
+    --set alertmanager.persistentVolume.storageClass="gp2",server.persistentVolume.storageClass="gp2"
+4 oidc_id=$(aws eks describe-cluster --name demo-cluster --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5)
+5 aws iam list-open-id-connect-providers | grep $oidc_id | cut -d "/" -f4
+6 eksctl utils associate-iam-oidc-provider --cluster demo-cluster --approve
+7 eksctl create iamserviceaccount \
+  --name ebs-csi-controller-sa \
+  --namespace kube-system \
+  --cluster demo-cluster \
+  --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+  --approve \
+  --role-only \
+  --role-name AmazonEKS_EBS_CSI_DriverRole
+8 eksctl create addon --name aws-ebs-csi-driver --cluster demo-cluster --service-account-role-arn arn:aws:iam::335809563306:role/AmazonEKS_EBS_CSI_DriverRole --force

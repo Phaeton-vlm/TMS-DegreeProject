@@ -46,17 +46,37 @@ pipeline {
                 }
             }
         }
+
+        stage('Create namespaces') {
+            steps {
+                dir(PROJECT_FOLDER_PATH) {
+                    sh """
+                    kubectl apply -f namespace.yaml
+                    """
+                }
+            }
+        }
         
-        stage('Deploy') {
+        stage('Deploy application') {
             steps {
                 script {
                     dir(PROJECT_FOLDER_PATH) {
                         sh """
                         kubectl apply -f deployment.yaml
-                        kubectl apply -f lb-service.yaml
-                        kubectl get svc
                         """
                     }
+                }
+            }
+        }
+
+
+        stage('Create services') {
+            steps {
+                dir(PROJECT_FOLDER_PATH) {
+                    sh """
+                    kubectl apply -f lb-service.yaml
+                    kubectl get svc
+                    """
                 }
             }
         }
