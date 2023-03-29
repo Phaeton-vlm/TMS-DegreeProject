@@ -9,7 +9,7 @@ jenkins:
           - labelString: "jenkins-agent"
             dockerTemplateBase:
               # TODO: pin sha256 or versions when using in production
-              image: "vlemi/jenkins:agent"
+              image: "vlemi/jenkins:latest"
               mounts:
                 - "type=tmpfs,destination=/run"
                 - "type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock"
