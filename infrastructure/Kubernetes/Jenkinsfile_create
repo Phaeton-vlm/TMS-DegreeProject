@@ -63,9 +63,9 @@ pipeline {
             steps {
                 script {
                     dir(PROJECT_FOLDER_PATH) {
-                        sh """
+                        sh '''
                         kubectl apply -f prometheus-grafana/0-namespace.yaml
-                        helm install stable prometheus-community/kube-prometheus-stack -n prometheus
+                        
 
                         kubectl get pods -n prometheus
                         kubectl get svc -n prometheus
@@ -74,7 +74,7 @@ pipeline {
 
                         kubectl patch svc stable-kube-prometheus-sta-prometheus --patch "$(cat prometheus-grafana/1-patch)" -n prometheus
                         kubectl patch svc stable-grafana --patch "$(cat prometheus-grafana/1-patch)" -n prometheus
-                        """
+                        '''
                     }
                 }
             }
