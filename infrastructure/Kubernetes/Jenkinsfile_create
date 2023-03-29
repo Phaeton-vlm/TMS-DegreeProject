@@ -37,7 +37,7 @@ pipeline {
                     dir(PROJECT_FOLDER_PATH) {
                         sh """
                         aws --version
-                        aws eks update-kubeconfig --name basic-cluster
+                        aws eks update-kubeconfig --name demo-cluster
                         cat /home/jenkins/.kube/config
                         export KUBECONFIG=${KUBECONFIG}
                         helm version
@@ -66,14 +66,16 @@ pipeline {
                         sh '''
                         kubectl apply -f prometheus-grafana/0-namespace.yaml
                         
+                        helm repo add stable https://charts.helm.sh/stable
+                        helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+                        helm install stable prometheus-community/kube-prometheus-stack -n prometheus
 
                         kubectl get pods -n prometheus
                         kubectl get svc -n prometheus
 
-                        kubectl apply -f prometheus-grafana/0-namespace.yaml
-
-                        kubectl patch svc stable-kube-prometheus-sta-prometheus --patch "$(cat prometheus-grafana/1-patch)" -n prometheus
-                        kubectl patch svc stable-grafana --patch "$(cat prometheus-grafana/1-patch)" -n prometheus
+                        kubectl patch svc stable-kube-prometheus-sta-prometheus --patch "$(cat prometheus-grafana/1-patch.yaml)" -n prometheus
+                        kubectl patch svc stable-grafana --patch "$(cat prometheus-grafana/1-patch.yaml)" -n prometheus
                         '''
                     }
                 }
