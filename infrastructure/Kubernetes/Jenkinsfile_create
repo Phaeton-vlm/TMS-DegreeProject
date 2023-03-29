@@ -25,7 +25,7 @@ pipeline {
         stage('Create EKS cluster') {
             steps {
                 dir(PROJECT_FOLDER_PATH) {
-                    sh "eksctl create cluster -f cluster.yaml"
+                    sh "eksctl create cluster -f 0-cluster.yaml"
                 }
                 
             }
@@ -40,6 +40,7 @@ pipeline {
                         aws eks update-kubeconfig --name basic-cluster
                         cat /home/jenkins/.kube/config
                         export KUBECONFIG=${KUBECONFIG}
+                        helm version
                         kubectl get nodes
                         """
                     }
@@ -47,38 +48,37 @@ pipeline {
             }
         }
 
-        stage('Create namespaces') {
+        stage('Deploy app') {
             steps {
                 dir(PROJECT_FOLDER_PATH) {
                     sh """
-                    kubectl apply -f namespace.yaml
+                    kubectl apply -f 1-deployment.yaml
+                    kubectl apply -f 2-service.yaml
                     """
                 }
             }
         }
         
-        stage('Deploy application') {
+        stage('Deploy prometheus-grafana') {
             steps {
                 script {
                     dir(PROJECT_FOLDER_PATH) {
                         sh """
-                        kubectl apply -f deployment.yaml
+                        kubectl apply -f prometheus-grafana/0-namespace.yaml
+                        helm install stable prometheus-community/kube-prometheus-stack -n prometheus
+
+                        kubectl get pods -n prometheus
+                        kubectl get svc -n prometheus
+
+                        kubectl apply -f prometheus-grafana/0-namespace.yaml
+
+                        kubectl patch svc stable-kube-prometheus-sta-prometheus --patch "$(cat prometheus-grafana/1-patch)" -n prometheus
+                        kubectl patch svc stable-grafana --patch "$(cat prometheus-grafana/1-patch)" -n prometheus
                         """
                     }
                 }
             }
         }
 
-
-        stage('Create services') {
-            steps {
-                dir(PROJECT_FOLDER_PATH) {
-                    sh """
-                    kubectl apply -f lb-service.yaml
-                    kubectl get svc
-                    """
-                }
-            }
-        }
     }
 }

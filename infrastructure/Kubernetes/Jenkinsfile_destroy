@@ -23,7 +23,7 @@ pipeline {
         stage('Destroy EKS cluster') {
             steps {
                 dir(PROJECT_FOLDER_PATH) {
-                    sh 'eksctl delete cluster -f cluster.yaml'
+                    sh 'eksctl delete cluster -f 0-cluster.yaml'
                 }
                 
             }
