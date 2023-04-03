@@ -85,9 +85,9 @@ pipeline {
                     subject: "Jenkins",
                     body: "Infrastructure deployed",
                     attachLog: true
-                }           
+                }   
+            }        
         }
     }
 
-    }
 }
