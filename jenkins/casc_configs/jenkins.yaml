@@ -15,6 +15,11 @@ jenkins:
   markupFormatter:
     rawHtml:
       disableSyntaxHighlighting: false
+  globalNodeProperties:
+  - envVars:
+      env:
+      - key: "EMAIL"
+        value: ${EMAIL}
 
 credentials:
   system:
@@ -43,22 +48,44 @@ credentials:
               password: ${dockerhub_token}
               scope: GLOBAL
               username: "vlemi"
+          - usernamePassword:
+              id: "email"
+              password: ${email_app_pass}
+              scope: GLOBAL
+              username: "phaeton.vlm@gmail.com"
 
 security:
   gitHostKeyVerificationConfiguration:
     sshHostKeyVerificationStrategy: "noHostKeyVerificationStrategy"
 
 unclassified:
-  mailer:
-      authentication:
-        password: ${EMAIL_PASSWORD}
-        username: ${EMAIL}
-      charset: "UTF-8"
-      defaultSuffix: "@gmail.com"
+  email-ext:
+    adminRequiredForTemplateTesting: false
+    allowUnregisteredEnabled: false
+    allowedDomains: "@gmail.com"
+    charset: "UTF-8"
+    debugMode: false
+    defaultBody: |-
+      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+      Check console output at $BUILD_URL to view the results.
+    defaultContentType: "text/plain"
+    defaultRecipients: ${EMAIL}
+    defaultReplyTo: ${EMAIL}
+    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
+    defaultSuffix: "@gmail.com"
+    defaultTriggerIds:
+    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
+    listId: ${EMAIL}
+    mailAccount:
+      credentialsId: "email"
       smtpHost: "smtp.gmail.com"
       smtpPort: "465"
       useSsl: true
-      useTls: false
+    maxAttachmentSize: -1
+    maxAttachmentSizeMb: -1
+    precedenceBulk: false
+    watchingEnabled: false
 
 jobs:
   - file: /var/jenkins_home/casc_configs/seedjob.groovy

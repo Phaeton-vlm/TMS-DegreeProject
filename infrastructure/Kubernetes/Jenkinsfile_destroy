@@ -43,4 +43,13 @@ pipeline {
         }
         
     }
+
+    post {
+        success {
+            emailext to: "${EMAIL}",
+            subject: "Jenkins",
+            body: "Infrastructure destroyd",
+            attachLog: true
+        }
+    }    
 }
