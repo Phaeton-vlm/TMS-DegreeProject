@@ -77,15 +77,15 @@ pipeline {
                 }
             }
         }
-
-        post {
-            success {
-                emailext to: "${EMAIL}",
-                subject: "Jenkins",
-                body: "Infrastructure deployed",
-                attachLog: true
-            }
-        }
     }
+
+    post {
+        success {
+            emailext to: "${EMAIL}",
+            subject: "Jenkins",
+            body: "Infrastructure deployed",
+            attachLog: true
+        }
+    }    
 
 }
