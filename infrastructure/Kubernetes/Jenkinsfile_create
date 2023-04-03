@@ -79,7 +79,7 @@ pipeline {
         }
 
         post {
-            success {
+            always {
                 emailext to: "${EMAIL}",
                 subject: "Jenkins",
                 body: "Infrastructure deployed",
