@@ -78,7 +78,7 @@ pipeline {
             }
         }
     }
-
+    
     post {
         success {
             emailext to: "${EMAIL}",
@@ -86,6 +86,6 @@ pipeline {
             body: "Infrastructure deployed",
             attachLog: true
         }
-    }    
+    }   
 
 }
