@@ -26,3 +26,4 @@ authorize-project:latest
 terraform:latest
 kubernetes-cli:latest
 custom-tools-plugin:latest
+email-ext:latest

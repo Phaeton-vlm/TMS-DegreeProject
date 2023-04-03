@@ -50,6 +50,7 @@ multibranchPipelineJob('App/Build(multibranch)') {
             source {
                 github {
                     id('1234567') // IMPORTANT: use a constant and unique identifier
+                    credentialsId('github_ssh')
                     repoOwner('Phaeton-vlm')
                     repository('todo-vue')
                     repositoryUrl('https://github.com/Phaeton-vlm/todo-vue.git')

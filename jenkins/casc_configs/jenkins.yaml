@@ -28,11 +28,6 @@ credentials:
               privateKeySource:
                 directEntry:
                   privateKey: ${github_ssh}
-          - usernamePassword:
-              id: github_registry
-              password: ${github_pat}
-              scope: SYSTEM
-              username: vladislav
           - string:
               scope: GLOBAL
               id: "accessKey"
@@ -54,8 +49,18 @@ security:
     sshHostKeyVerificationStrategy: "noHostKeyVerificationStrategy"
 
 unclassified:
-  location:
-    url: ${JENKINS_URL}
+  mailer:
+      authentication:
+        password: ${EMAIL_PASSWORD}
+        username: ${EMAIL}
+      charset: "UTF-8"
+      defaultSuffix: "@gmail.com"
+      smtpHost: "smtp.gmail.com"
+      smtpPort: "465"
+      useSsl: true
+      useTls: false
 
 jobs:
   - file: /var/jenkins_home/casc_configs/seedjob.groovy
+
+  
