@@ -79,13 +79,11 @@ pipeline {
         }
 
         post{
-            always{
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+            success {                
                     emailext to: "${EMAIL}",
                     subject: "Jenkins",
                     body: "Infrastructure deployed",
                     attachLog: true
-                }   
             }        
         }
     }
