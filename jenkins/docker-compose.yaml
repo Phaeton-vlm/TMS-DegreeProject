@@ -13,11 +13,11 @@ services:
       JENKINS_ADMIN_ID: ${JENKINS_ADMIN_ID}
       JENKINS_ADMIN_PASSWORD: ${JENKINS_ADMIN_PASSWORD}
       EMAIL: ${EMAIL}
-      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
       DOCKER_HOST: tcp://jenkins-docker:2375
       DOCKER_CERT_PATH: ""
       DOCKER_TLS_VERIFY: ""
     secrets:
+      - email_app_pass
       - dockerhub_token
       - github_ssh
       - accessKey
@@ -59,3 +59,5 @@ secrets:
     file: /home/ubuntu/.aws_cred/aws_secret_access_key
   dockerhub_token:
     file: /home/ubuntu/.ssh/dockerhub_token
+  email_app_pass:
+    file: /home/ubuntu/.ssh/app_password

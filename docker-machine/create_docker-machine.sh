@@ -36,6 +36,10 @@ echo -e $grn"\nCoping access token for dockerhub..."$rst
 docker-machine scp ./ssh_key/docker_token "$MACHINE_NAME":"/home/$MACHINE_USER/.ssh/dockerhub_token"
 docker-machine ssh "$MACHINE_NAME" "chmod 400 /home/"$MACHINE_USER"/.ssh/dockerhub_token"
 
+echo -e $grn"\nCoping access token for Email..."$rst
+docker-machine scp ./email_cred/app_password "$MACHINE_NAME":"/home/$MACHINE_USER/.ssh/app_password"
+docker-machine ssh "$MACHINE_NAME" "chmod 400 /home/"$MACHINE_USER"/.ssh/app_password"
+
 echo -e $grn"\nCoping aws cred..."$rst
 [ -d ./aws_cred ] || mkdir ./aws_cred
 docker-machine scp -r ./aws_cred/ "$MACHINE_NAME":"/home/$MACHINE_USER/.aws_cred/"
