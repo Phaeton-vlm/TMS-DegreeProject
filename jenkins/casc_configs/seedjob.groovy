@@ -50,7 +50,7 @@ multibranchPipelineJob('App/Build(multibranch)') {
             source {
                 github {
                     id('1234567') // IMPORTANT: use a constant and unique identifier
-                    credentialsId('github_ssh')
+                    credentialsId('github_ssh2')
                     repoOwner('Phaeton-vlm')
                     repository('todo-vue')
                     repositoryUrl('https://github.com/Phaeton-vlm/todo-vue.git')
@@ -86,12 +86,13 @@ multibranchPipelineJob('App/Build(multibranch)') {
 }
 
 pipelineJob('App/Deploy') {
-    description('<div style="border-radius:10px; text-align: center; font-size:120%; padding:15px; background-color: powderblue;">BuiDeployld application pipeline</div>')
+    description('<div style="border-radius:10px; text-align: center; font-size:120%; padding:15px; background-color: powderblue;">Deploy application pipeline</div>')
     definition {
         cpsScm {
             scm {
                 git {
                     remote {
+                        credentials('github_ssh2')
                         github('Phaeton-vlm/todo-vue')
                     }
                     branch('master')
@@ -99,5 +100,8 @@ pipelineJob('App/Deploy') {
             }
             scriptPath('Jenkinsfile_deploy')
         }
+    }
+    parameters {
+        stringParam('D_TAG', '0.0', 'image version')
     }
 }
