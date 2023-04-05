@@ -84,20 +84,3 @@ multibranchPipelineJob('App/Build(multibranch)') {
         }
     }
 }
-
-pipelineJob('App/Deploy') {
-    description('<div style="border-radius:10px; text-align: center; font-size:120%; padding:15px; background-color: powderblue;">BuiDeployld application pipeline</div>')
-    definition {
-        cpsScm {
-            scm {
-                git {
-                    remote {
-                        github('Phaeton-vlm/todo-vue')
-                    }
-                    branch('master')
-                }
-            }
-            scriptPath('Jenkinsfile_deploy')
-        }
-    }
-}
