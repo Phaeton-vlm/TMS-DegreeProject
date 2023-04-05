@@ -53,6 +53,11 @@ credentials:
               password: ${email_app_pass}
               scope: GLOBAL
               username: "phaeton.vlm@gmail.com"
+          - usernamePassword:
+              id: "github_ssh2"
+              password: "{AQAAABAAAAAw5OYIknqCQQvGHuUkcdSSS3Xc+tgfVfaQU8NeZAn8pMv/rff7FDNdThuhpZ0fkeCyQaTLhysLCu+y1PwNjGFgrQ==}"
+              scope: GLOBAL
+              username: "user"
 
 security:
   gitHostKeyVerificationConfiguration:
