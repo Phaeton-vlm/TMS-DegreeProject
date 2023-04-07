@@ -22,6 +22,8 @@ docker-machine create \
 	--amazonec2-open-port 8080 \
 "$MACHINE_NAME"
 
+# echo -e "JENKINS_URL=$(docker-machine ip "$MACHINE_NAME"):8080" >> ../jenkins/.env
+
 echo -e $grn"\nCreating sync folder..."$rst
 cd "$ROOT_DIR"
 docker-machine ssh "$MACHINE_NAME" mkdir "$SYNC_FOLDER"
@@ -45,7 +47,7 @@ echo -e $grn"\nCoping aws cred..."$rst
 docker-machine scp -r ./aws_cred/ "$MACHINE_NAME":"/home/$MACHINE_USER/.aws_cred/"
 
 echo -e $grn"\nActivating machine.."$rst
-eval $(docker-machine env vlm-jenkins-server)
+eval $(docker-machine env "$MACHINE_NAME")
 
 cd ../jenkins
 docker compose up -d
@@ -53,3 +55,4 @@ docker compose up -d
 echo -e "Your Jenkins server ip - $lcn$(docker-machine ip "$MACHINE_NAME"):8080"$rst
 echo -e "Jenkins login: $lcn$(cat ./.env | grep JENKINS_ADMIN_ID | awk -F '=' '{print $2}')$rst"
 echo -e "Jenkins password: $lcn$(cat ./.env | grep JENKINS_ADMIN_PASSWORD | awk -F '=' '{print $2}')$rst"
+
