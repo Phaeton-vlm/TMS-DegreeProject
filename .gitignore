@@ -1,6 +1,8 @@
-docker-machine/aws_cred
-docker-machine/ssh_key
-docker-machine/email_cred
+docker-machine/aws_cred/aws_access_key_id
+docker-machine/aws_cred/aws_secret_access_key
+docker-machine/ssh_key/docker_token
+docker-machine/ssh_key/id_rsa
+docker-machine/email_cred/app_password
 docker-machine/set_cred_env.sh
 docker-machine/sync_rsa.sh
 docker-machine/set_cred_env.sh
