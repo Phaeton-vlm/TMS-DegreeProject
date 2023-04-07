@@ -64,6 +64,8 @@ security:
     sshHostKeyVerificationStrategy: "noHostKeyVerificationStrategy"
 
 unclassified:
+  gitHubConfiguration:
+    apiRateLimitChecker: ThrottleOnOver
   email-ext:
     adminRequiredForTemplateTesting: false
     allowUnregisteredEnabled: false
