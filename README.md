@@ -13,6 +13,8 @@ Go to TMS-DegreeProject/jenkins/.env and set the variables (or just skip)
 - JENKINS_ADMIN_PASSWORD - your jenkins password
 - EMAIL - your Gmail for notification
 # :globe_with_meridians: Project launch
+>Don't forget to run Docker on your local machine
+>
 Go to TMS-DegreeProject/docker-machine and run _create_docker-machine.sh_ 
 ```bash
 cd ./docker-machine
